@@ -1,11 +1,14 @@
 {
   "name": "js-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Javascript CLI tools",
   "main": "index.js",
   "author": "David Adams",
   "license": "MIT",
   "bin": {
-    "create-component": "./create-component.js"
+    "c2": "./c2.js"
+  },
+  "dependencies": {
+    "commander": "^2.15.1"
   }
 }

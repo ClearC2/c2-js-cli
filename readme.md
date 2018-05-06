@@ -1,9 +1,10 @@
-# c2-js-utils
+# js-cli
 This package contains executable cli tools to aid in development.
 
 ## Installation
+Add the cli tools globally instead of at the project level.
 ```
-yarn global add ClearC2/c2-js-utils
+yarn global add ClearC2/js-cli
 ```
 
 ## create-component.js

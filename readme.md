@@ -1,4 +1,4 @@
-# js-cli
+# c2-js-cli
 This package contains a cli tools to aid in react/redux development.
 
 ## Installation

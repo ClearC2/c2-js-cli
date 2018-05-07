@@ -1,0 +1,112 @@
+#!/usr/bin/env node
+
+/* eslint-disable */
+const program = require('commander')
+const fs = require('fs')
+const path = require('path')
+
+program
+  .option('-c, --container', 'Create container')
+  .parse(process.argv);
+
+if (!program.args.length) {
+  console.error('Component name required')
+  process.exit(1)
+}
+const componentName = program.args[0]
+const componentDir = path.resolve(`./${componentName}`)
+const componentFile = `${componentDir}/${componentName}.js`
+const containerFile = `${componentDir}/${componentName}Container.js`
+const selectorFile = `${componentDir}/selector.js`
+const indexFile = `${componentDir}/index.js`
+
+// create directory
+try {
+  fs.mkdirSync(path.resolve(`./${componentName}`))
+} catch (err) {
+  console.error('Already exists')
+  process.exit(1)
+}
+
+const componentContent = `import React, {Component} from 'react'
+import PropTypes from 'prop-types'\n
+export default class ${componentName} extends Component {
+  static propTypes = {
+    loginId: PropTypes.string
+  }
+
+  render () {
+    return (
+      <div>
+
+      </div>
+    )
+  }
+}
+`
+
+// create component file
+try {
+  fs.writeFileSync(componentFile, componentContent)
+} catch (err) {
+  console.error('Could not create component file.')
+  process.exit(1)
+}
+
+if (program.container) {
+  // create selector file
+  const selectorContent = `export default function (state, props) {
+  return {}
+}
+`
+  try {
+    fs.writeFileSync(selectorFile, selectorContent)
+  } catch (err) {
+    console.error('Could not create selector file.')
+    process.exit(1)
+  }
+
+  const containerContent = `import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import ${componentName} from './${componentName}'
+import selector from './selector'\n
+export class ${componentName}Container extends Component {
+  static propTypes = {
+    loginId: PropTypes.string
+  }
+
+  render () {
+    return (
+      <${componentName} {...this.props} />
+    )
+  }
+}
+
+export default connect(null, selector)(${componentName}Container)
+`
+  // create container file
+  try {
+    fs.writeFileSync(containerFile, containerContent)
+  } catch (err) {
+    console.error('Could not create container file.')
+    process.exit(1)
+  }
+}
+
+const indexContent = `export {default} from './${componentName}${program.container ? 'Container' : ''}'
+`
+
+// create index file
+try {
+  fs.writeFileSync(indexFile, indexContent)
+} catch (err) {
+  console.error('Could not create index file.')
+  process.exit(1)
+}
+
+console.log(`Created ${program.container ? 'container' : 'component'} ${componentName}`)
+if (program.container) console.log(containerFile)
+console.log(componentFile)
+if (program.container) console.log(selectorFile)
+console.log(indexFile)

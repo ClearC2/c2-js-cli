@@ -1,22 +1,48 @@
 # js-cli
-This package contains executable cli tools to aid in development.
+This package contains a cli tools to aid in react/redux development.
 
 ## Installation
 Add the cli tools globally instead of at the project level.
 ```
-yarn global add ClearC2/js-cli@^1.0.0
+yarn global add ClearC2/js-cli
 ```
+This will add the `c2` cli tool to your global environment. Run `c2 --help` for the available commands.
 
-## create-component.js
-An external tool to scaffold a component. Creates the following:
+## c2 component [name]
+Scaffold a component/container.
+
+Creates the following for normal component:
 - component directory
 - component file
-- container file that imports/uses component
+- index file that exports component
+
+Passing the `-c` or `--container` option creates the following for container component:
+- component directory
+- component file
+- selector file
+- container file that imports/uses component, selector
 - index file that exports container
 
 ### Usage
-
 ```sh
 # in the location you wish to create the component
-create-component <component-name>
+c2 component UserTable # scaffolds a component
+c2 component -c UserTable # scaffolds a container
+```
+
+## c2 redux [name]
+Scaffolds a redux module.
+
+Creates the following:
+- constants file
+- actions file
+- reducer file
+- input selectors file
+- memoized selectors file
+
+### Usage
+```sh
+# in the location you wish to create the component
+c2 redux people # creates a "redux" directory and associated files within
+c2 redux people -d People # creates a "People" directory and associated files within
 ```

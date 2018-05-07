@@ -1,12 +1,14 @@
 {
   "name": "js-cli",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "description": "Javascript CLI tools",
-  "main": "index.js",
+  "main": "c2",
   "author": "David Adams",
   "license": "MIT",
   "bin": {
-    "c2": "./c2.js"
+    "c2": "./c2",
+    "c2-component": "./c2-component",
+    "c2-redux": "./c2-redux"
   },
   "dependencies": {
     "commander": "^2.15.1"

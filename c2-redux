@@ -1,0 +1,84 @@
+#!/usr/bin/env node
+
+/* eslint-disable */
+const program = require('commander')
+const fs = require('fs')
+const path = require('path')
+
+program
+  .option('-d, --directory <dir>', 'Directory name. defaults to redux')
+  .parse(process.argv);
+
+if (!program.args.length) {
+  console.error('Module name required')
+  process.exit(1)
+}
+const moduleName = program.args[0]
+const directoryName = program.directory || 'redux'
+const moduleDir = path.resolve(`./${directoryName}`)
+const constantsFile = `${moduleDir}/constants.js`
+const actionsFile = `${moduleDir}/actions.js`
+const reducerFile = `${moduleDir}/reducer.js`
+const inputSelectorsFile = `${moduleDir}/input-selector.js`
+const memoizedSelectorsFile = `${moduleDir}/memoized-selectors.js`
+
+function createEmptyFile (filename, type) {
+  const emptyContent = `
+`
+  try {
+    fs.writeFileSync(filename, emptyContent)
+  } catch (err) {
+    console.error(`Could not create ${type} file.`)
+    process.exit(1)
+  }
+}
+
+// create directory
+try {
+  fs.mkdirSync(moduleDir)
+} catch (err) {
+  console.error('Already exists')
+  process.exit(1)
+}
+
+createEmptyFile(constantsFile, 'constants')
+createEmptyFile(inputSelectorsFile, 'input selectors')
+createEmptyFile(memoizedSelectorsFile, 'memoized selectors')
+
+const actionsContent = `import * as constants from './constants'
+`
+// create container file
+try {
+  fs.writeFileSync(actionsFile, actionsContent)
+} catch (err) {
+  console.error('Could not create actions file.')
+  process.exit(1)
+}
+
+const reducerContent = `import {Map, fromJS} from 'immutable'
+import * as constants from './constants'\n
+export default function reducer (state = Map(), action) {
+  switch (action.type) {
+    case constants.FETCH_STUFF_SUCCESS:
+      return state.set('stuff', fromJS(action.stuff))
+    default:
+      return state
+  }
+}
+
+reducer.key = '${moduleName}'
+`
+// create container file
+try {
+  fs.writeFileSync(reducerFile, reducerContent)
+} catch (err) {
+  console.error('Could not create reducer file.')
+  process.exit(1)
+}
+
+console.log(`Created ${moduleName} module`)
+console.log(constantsFile)
+console.log(actionsFile)
+console.log(reducerFile)
+console.log(inputSelectorsFile)
+console.log(memoizedSelectorsFile)

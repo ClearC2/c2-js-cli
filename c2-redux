@@ -19,7 +19,7 @@ const moduleDir = path.resolve(`./${directoryName}`)
 const constantsFile = `${moduleDir}/constants.js`
 const actionsFile = `${moduleDir}/actions.js`
 const reducerFile = `${moduleDir}/reducer.js`
-const inputSelectorsFile = `${moduleDir}/input-selector.js`
+const inputSelectorsFile = `${moduleDir}/input-selectors.js`
 const memoizedSelectorsFile = `${moduleDir}/memoized-selectors.js`
 
 function createEmptyFile (filename, type) {

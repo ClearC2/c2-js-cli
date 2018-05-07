@@ -29,6 +29,7 @@ Passing the `-c` or `--container` option creates the following for container com
 c2 component UserTable # scaffolds a component
 c2 component -c UserTable # scaffolds a container
 ```
+![create container](./docs/cli-container.png "Create container")
 
 ## c2 redux [name]
 Scaffolds a redux module.
@@ -46,3 +47,5 @@ Creates the following:
 c2 redux people # creates a "redux" directory and associated files within
 c2 redux people -d People # creates a "People" directory and associated files within
 ```
+
+![create redux module](./docs/cli-redux.png "Create redux module")

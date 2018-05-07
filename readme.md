@@ -26,7 +26,8 @@ Passing the `-c` or `--container` option creates the following for container com
 ### Usage
 ```sh
 # in the location you wish to create the component
-c2 component UserTable # scaffolds a component
+
+c2 component UserTable    # scaffolds a component
 c2 component -c UserTable # scaffolds a container
 ```
 ![create container](./docs/cli-container.png "Create container")
@@ -44,7 +45,8 @@ Creates the following:
 ### Usage
 ```sh
 # in the location you wish to create the component
-c2 redux people # creates a "redux" directory and associated files within
+
+c2 redux people           # creates a "redux" directory and associated files within
 c2 redux people -d People # creates a "People" directory and associated files within
 ```
 

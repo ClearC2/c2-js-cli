@@ -4,7 +4,7 @@ This package contains a cli tools to aid in react/redux development.
 ## Installation
 Add the cli tools globally instead of at the project level.
 ```
-yarn global add ClearC2/js-cli
+yarn global add ClearC2/c2-js-cli
 ```
 This will add the `c2` cli tool to your global environment. Run `c2 --help` for the available commands.
 

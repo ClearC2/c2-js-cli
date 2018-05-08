@@ -83,7 +83,7 @@ export class ${componentName}Container extends Component {
   }
 }
 
-export default connect(null, selector)(${componentName}Container)
+export default connect(selector)(${componentName}Container)
 `
   // create container file
   try {

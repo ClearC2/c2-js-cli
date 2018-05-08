@@ -1,6 +1,6 @@
 {
   "name": "c2-js-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Javascript CLI tools",
   "main": "c2",
   "author": "David Adams",

@@ -28,21 +28,21 @@ try {
   process.exit(1)
 }
 
-const componentContent = `import React, {Component} from 'react'
+const componentContent = `import React from 'react'
 import PropTypes from 'prop-types'\n
-export default class ${componentName} extends Component {
-  static propTypes = {
-    loginId: PropTypes.string
-  }
+function ${componentName} ({loginId}) {
+  return (
+    <div>
 
-  render () {
-    return (
-      <div>
-
-      </div>
-    )
-  }
+    </div>
+  )
 }
+
+${componentName}.propTypes = {
+  loginId: PropTypes.string.isRequired
+}
+
+export default ${componentName}
 `
 
 // create component file
@@ -55,9 +55,11 @@ try {
 
 if (program.container) {
   // create selector file
-  const selectorContent = `export default function (state, props) {
+  const selectorContent = `function selector (state, props) {
   return {}
 }
+
+export default selector
 `
   try {
     fs.writeFileSync(selectorFile, selectorContent)
@@ -71,7 +73,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import ${componentName} from './${componentName}'
 import selector from './selector'\n
-export class ${componentName}Container extends Component {
+class ${componentName}Container extends Component {
   static propTypes = {
     loginId: PropTypes.string
   }

@@ -57,7 +57,7 @@ try {
 
 const reducerContent = `import {Map, fromJS} from 'immutable'
 import * as constants from './constants'\n
-export default function reducer (state = Map(), action) {
+function reducer (state = Map(), action) {
   switch (action.type) {
     case constants.FETCH_STUFF_SUCCESS:
       return state.set('stuff', fromJS(action.stuff))
@@ -67,6 +67,8 @@ export default function reducer (state = Map(), action) {
 }
 
 reducer.key = '${moduleName}'
+
+export default reducer
 `
 // create container file
 try {

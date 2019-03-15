@@ -16,7 +16,10 @@ if (!program.args.length) {
 const componentName = program.args[0]
 const componentDir = path.resolve(`./${componentName}`)
 const componentFile = `${componentDir}/${componentName}.js`
+const componentTestDir = `${componentDir}/__tests__`
+const componentTestFile = `${componentTestDir}/${componentName}.test.js`
 const containerFile = `${componentDir}/${componentName}Container.js`
+const containerTestFile = `${componentTestDir}/${componentName}Container.test.js`
 const selectorFile = `${componentDir}/selector.js`
 const indexFile = `${componentDir}/index.js`
 
@@ -30,16 +33,14 @@ try {
 
 const componentContent = `import React from 'react'
 import PropTypes from 'prop-types'\n
-function ${componentName} ({loginId}) {
+function ${componentName} () {
   return (
-    <div>
-
-    </div>
+    <div />
   )
 }
 
 ${componentName}.propTypes = {
-  loginId: PropTypes.string.isRequired
+  change: PropTypes.string
 }
 
 export default ${componentName}
@@ -50,6 +51,34 @@ try {
   fs.writeFileSync(componentFile, componentContent)
 } catch (err) {
   console.error('Could not create component file.')
+  process.exit(1)
+}
+
+// create test directory
+try {
+  fs.mkdirSync(path.resolve(componentTestDir))
+} catch (err) {
+  console.error('Error creating test dir')
+  process.exit(1)
+}
+
+const testContent = `import React from 'react'
+import {render} from 'react-testing-library'
+import ${componentName} from '../${componentName}'
+
+describe('${componentName}', () => {
+  it('should render', async () => {
+    const {container} = render(<${componentName} />)
+    expect(container.querySelector('div')).toBeInTheDocument()
+  })
+})
+`
+
+// create component test file
+try {
+  fs.writeFileSync(componentTestFile, testContent)
+} catch (err) {
+  console.error('Could not create component test file.')
   process.exit(1)
 }
 
@@ -68,21 +97,19 @@ export default selector
     process.exit(1)
   }
 
-  const containerContent = `import React, {Component} from 'react'
+  const containerContent = `import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import ${componentName} from './${componentName}'
 import selector from './selector'\n
-class ${componentName}Container extends Component {
-  static propTypes = {
-    loginId: PropTypes.string
-  }
+function ${componentName}Container (props) {
+  return (
+    <${componentName} {...props} />
+  )
+}
 
-  render () {
-    return (
-      <${componentName} {...this.props} />
-    )
-  }
+${componentName}Container.propTypes = {
+  change: PropTypes.string
 }
 
 export default connect(selector)(${componentName}Container)
@@ -92,6 +119,26 @@ export default connect(selector)(${componentName}Container)
     fs.writeFileSync(containerFile, containerContent)
   } catch (err) {
     console.error('Could not create container file.')
+    process.exit(1)
+  }
+
+  const containerTestContent = `import React from 'react'
+import {render} from 'react-testing-library'
+import ${componentName}Container from '../${componentName}Container'
+
+describe('${componentName}Container', () => {
+  it('should render', async () => {
+    const {container} = render(<${componentName}Container />)
+    expect(container.querySelector('div')).toBeInTheDocument()
+  })
+})
+`
+
+  // create container test file
+  try {
+    fs.writeFileSync(containerTestFile, containerTestContent)
+  } catch (err) {
+    console.error('Could not create container test file.')
     process.exit(1)
   }
 }
@@ -108,7 +155,11 @@ try {
 }
 
 console.log(`Created ${program.container ? 'container' : 'component'} ${componentName}`)
-if (program.container) console.log(containerFile)
 console.log(componentFile)
-if (program.container) console.log(selectorFile)
 console.log(indexFile)
+console.log(componentTestFile)
+if (program.container) {
+  console.log(containerFile)
+  console.log(selectorFile)
+  console.log(containerTestFile)
+}

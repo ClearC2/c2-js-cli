@@ -15,13 +15,19 @@ Creates the following for normal component:
 - component directory
 - component file
 - index file that exports component
+- component test directory
+- component test file
 
 Passing the `-c` or `--container` option creates the following for container component:
 - component directory
 - component file
+- component test directory
+- component test file
 - selector file
 - container file that imports/uses component, selector
 - index file that exports container
+- container test directory
+- container test file
 
 ### Usage
 ```sh

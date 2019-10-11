@@ -63,7 +63,7 @@ try {
 }
 
 const testContent = `import React from 'react'
-import {render} from 'react-testing-library'
+import {render} from '@testing-library/react'
 import ${componentName} from '../${componentName}'
 
 describe('${componentName}', () => {
@@ -123,7 +123,7 @@ export default connect(selector)(${componentName}Container)
   }
 
   const containerTestContent = `import React from 'react'
-import {render} from 'react-testing-library'
+import {render} from '@testing-library/react'
 import ${componentName}Container from '../${componentName}Container'
 
 describe('${componentName}Container', () => {
